@@ -1,0 +1,184 @@
+<link href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"> 
+<div class="custom-reviews static">
+  <div class="page-width">
+    <div class="revie-parent">
+      <div class="top-head centr">
+        <h3>{{ section.settings.title }}</h3>
+        <h3>
+          <span style="color:{{ section.settings.text_color }};">{{ section.settings.totalReview }}</span>
+          <span>{{ section.settings.review-heading }}</span>
+        </h3>
+      </div>
+      <div class="below-reviews" id="reviewSection">
+        {% for block in section.blocks %}
+          <div class="item reviewsItems">
+            <div class="blw-data">
+            <div class="rating--area">
+              <div class="ratnmbr " style="color:{{ section.settings.star_color }};">
+                  {% assign rating = block.settings.sizes | plus:0 %}
+                  {% for i in (1..rating) %}
+                    <i class="fa fa-star"></i>
+                  {% endfor %}
+                  {% if rating != 5 %}
+                    {% assign blankstar = 5 | minus: rating  %}
+                    {% for i in (1..blankstar) %}
+                      <i class="fa fa-star-o"></i>
+                    {% endfor %}
+                  {% endif %}
+              </div>
+              <div class="abtrate">{{ block.settings.title }}</div>
+            </div>
+            <p>{{ block.settings.paragraph }}</p>
+            <div class="footerReviews">
+              {{ block.settings.customerName }}
+            </div>
+          </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+          
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>  
+
+
+<script>
+  var screenWidth = screen.width;
+  if(screenWidth <= 767){
+    var element = document.getElementById("reviewSection");
+    element.classList.add("owl-carousel");
+    element.classList.add("owl-theme");
+    jQuery("#reviewSection").owlCarousel({
+      loop: true,
+      lazyLoad: true,
+      margin: 10,
+      responsiveClass: true,
+      autoHeight: true,
+      smartSpeed: 800,
+      nav: true,
+      responsive: {
+        0: {
+          items: '{{ section.settings.show_item }}.3'
+        },
+    
+        600: {
+          items: '{{ section.settings.show_item  }}.3'
+        }
+      }
+    });
+  }
+</script>
+
+<script>
+  
+</script>
+
+{% schema %}
+  {
+    "name": "Customer review",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+      },
+      {
+        "type": "text",
+        "id": "totalReview",
+        "label": "Review count"
+      },
+        {
+        "type": "color",
+        "id": "text_color",
+        "label": "Text Color for this Section",
+        "default": "#000000"
+      },
+      {
+        "type": "text",
+        "id": "review-heading",
+        "label": "Review count heading"
+      },
+      {
+        "type": "color",
+        "id": "star_color",
+        "label": "Star color",
+        "default": "#01aa0a"
+      },
+      {
+      "type": "range",
+      "id": "show_item",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 1,
+      "label": "Review item to show"
+    }
+    ],
+    "blocks": [
+       {
+         "name": "add-review",
+         "type": "add-review",
+         "settings": [
+            {
+             "type": "text",
+             "id": "title",
+             "label": "Title"
+           },
+           {
+             "type": "richtext",
+             "id": "paragraph",
+             "label": "Paragraph"
+           },
+           {
+             "type": "richtext", 
+             "id": "customerName",
+             "label": "Customer name"
+            },
+           {
+              "type": "select",
+              "id": "sizes",
+              "label": "Select number of stars", 
+              "options": [
+                {
+                  "value": "1",
+                  "label": "1"
+                },
+                {
+                  "value": "2",
+                  "label": "2"
+                },
+                {
+                  "value": "3",
+                  "label": "3"
+                },
+                {
+                  "value": "4",
+                  "label": "4"
+                },
+                {
+                  "value": "5",
+                  "label": "5"
+                }
+              ],
+              "default": "5"
+            }
+         ]
+       }
+    ],
+    "presets": [
+      {
+        "name": "Customer review"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
